@@ -55,6 +55,8 @@ public class AsignarDividendos extends javax.swing.JDialog {
         Lempate = new javax.swing.JLabel();
         Empate = new javax.swing.JTextField();
         Confirmar = new javax.swing.JButton();
+        res_exa = new javax.swing.JLabel();
+        Res_ex = new javax.swing.JTextField();
 
         jTextField3.setText("jTextField3");
 
@@ -84,17 +86,23 @@ public class AsignarDividendos extends javax.swing.JDialog {
             }
         });
 
+        res_exa.setText("Resultado exacto:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(res_exa)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Res_ex, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(Confirmar))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(LID)
                             .addComponent(LLocal)
@@ -116,7 +124,7 @@ public class AsignarDividendos extends javax.swing.JDialog {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(ShowID, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(LPartido)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                         .addComponent(ComboPartidos, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -150,8 +158,12 @@ public class AsignarDividendos extends javax.swing.JDialog {
                     .addComponent(Lempate)
                     .addComponent(Empate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(res_exa)
+                    .addComponent(Res_ex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(Confirmar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -195,12 +207,16 @@ public class AsignarDividendos extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Debe ingresar un valor en el Campo Visitante", "Error", JOptionPane.ERROR_MESSAGE);
             
         }
+        /*if(Empate.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Debe ingresar un valor en el Campo Visitante", "Error", JOptionPane.ERROR_MESSAGE);
+            
+        }*/
         
         else{
-            double l = Double.parseDouble(Local.getText()), v = Double.parseDouble(Visitante.getText()), e = Double.parseDouble(Empate.getText());
+            double l = Double.parseDouble(Local.getText()), v = Double.parseDouble(Visitante.getText()), e = Double.parseDouble(Empate.getText()), rex = Double.parseDouble(Res_ex.getText());
             int id = ids;
             System.out.println(ids);
-            mbd.asignarDividendo(id,l,v,e);
+            mbd.asignarDividendo(id,l,v,e,rex);
             JOptionPane.showMessageDialog(this,"Se ha realizado la operacion exito", "",JOptionPane.INFORMATION_MESSAGE);
             LLocal.setText("");
             LVisitante.setText("");
@@ -208,6 +224,8 @@ public class AsignarDividendos extends javax.swing.JDialog {
             Local.setText("");
             Visitante.setText("");
             Empate.setText("");
+            Res_ex.setText("");
+            this.dispose();
         }
     }//GEN-LAST:event_ConfirmarActionPerformed
 
@@ -223,8 +241,10 @@ public class AsignarDividendos extends javax.swing.JDialog {
     private javax.swing.JLabel LVisitante;
     private javax.swing.JLabel Lempate;
     private javax.swing.JTextField Local;
+    private javax.swing.JTextField Res_ex;
     private javax.swing.JLabel ShowID;
     private javax.swing.JTextField Visitante;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JLabel res_exa;
     // End of variables declaration//GEN-END:variables
 }

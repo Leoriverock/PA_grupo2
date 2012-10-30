@@ -935,6 +935,49 @@ public List ObtenerFechaHora()
         }
 
     }
+    public List ObtenerTodoGoleadoresVerCompeticion(String nombre)
+    {
+        List Lista = new ArrayList();
+        List Nueva = new ArrayList();
+        Lista=this.ObtenerGoleadoresVerCompeticion(nombre);
+        int cont=0;
+        for(int i=0; i < Lista.size()/2;i++)
+        {
+                   
+            //Nueva.add(this.BuscarNombreEquipo(Integer.valueOf(Lista.get(i*2).toString())));
+            //Nueva.add(this.BuscarNombreEquipo(Integer.valueOf(Lista.get((i*2)+1).toString())));
+            Nueva.add(Lista.get((i*2)));
+            Nueva.add(Lista.get((i*2)+1));
+                 
+        }
+        return Nueva;
+    }
+    public List ObtenerGoleadoresVerCompeticion(String nombre){
+        ResultSet res;
+        List Lista = new ArrayList();
+        try {
+            res = st.executeQuery("select j.NombreCompleto, gj.cant_goles from jugadores j,competiciones c, goles_jugador gj where j.id_jugador=gj.id_jugador and c.id_competicion=gj.id_competicion and c.Nombre='"+nombre+"' order by gj.cant_goles desc limit 5");
+            //return res;
+            while(res.next())
+            {                
+                Lista.add(res.getObject(1)); //Nombre Completo
+                Lista.add(res.getObject(2)); //Contidad goles             
+                
+                
+            }
+            return Lista;
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+            return null;
+        }
+        
+    }
     
-    
+    public void asignarDividendo(int id, double local, double visita, double empate ,double res_ex){
+        try {
+            st.executeUpdate("UPDATE partidos set divlocal = "+local+", divvisita = "+visita+", divempate = "+empate+", div_exacto= "+res_ex+" where id_partido = "+id+" ");
+        } catch (SQLException ex) {
+            System.out.println("Error: "+ex.toString());
+        }
+    }
 }
