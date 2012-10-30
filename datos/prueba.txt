@@ -1,0 +1,27 @@
+SpectraSuite Data File
+++++++++++++++++++++++++++++++++++++
+Date: Thu Mar 04 12:12:59 CST 2010
+User: tesista
+Dark Spectrum Present: No
+Reference Spectrum Present: No
+Number of Sampled Component Spectra: 1
+Spectrometers: USB4C00849
+Integration Time (usec): 100000 (USB4C00849)
+Spectra Averaged: 1 (USB4C00849)
+Boxcar Smoothing: 0 (USB4C00849)
+Correct for Electrical Dark: No (USB4C00849)
+Strobe/Lamp Enabled: No (USB4C00849)
+Correct for Detector Non-linearity: No (USB4C00849)
+Correct for Stray Light: No (USB4C00849)
+Number of Pixels in Processed Spectrum: 99999999
+>>>>>Begin Processed Spectral Data<<<<<
+3.00	500.00
+4.00	100.00
+5.00	400.00
+6.00	900.00
+7.00	950.00
+8.00	700.00
+8.00	0.00
+
+
+

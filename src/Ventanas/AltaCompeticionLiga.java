@@ -1,6 +1,7 @@
 package Ventanas;
 
 import Clases.ManejadorBD;
+import Clases.Partido;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -23,14 +24,14 @@ public class AltaCompeticionLiga extends javax.swing.JDialog {
     List <Integer> ids_agregados = new ArrayList<>();
     List <String> nom_equipos = new ArrayList<>();
     List <String> nom_equipos_agr = new ArrayList<>();
+    List <String> id_equipos_agr = new ArrayList<>();
     DefaultListModel modelo2 = new DefaultListModel();
     int id_posible;
     
     private void llenarListaDisponibles(){
         Statement st = mbd.getStatement();
         ResultSet res;
-        Object nombre;
-        
+        Object nombre, id;
         DefaultListModel modelo = new DefaultListModel();
         eq_disponibles.setModel(modelo);
         
@@ -40,8 +41,10 @@ public class AltaCompeticionLiga extends javax.swing.JDialog {
              res = st.executeQuery("select ID_Equipos, Nombre from equipos");
              while(res.next()){
                  nombre = res.getObject(2);
+                 id = res.getObject(1);
                  modelo.addElement(nombre);
                  nom_equipos.add(nombre.toString());
+                 id_equipos_agr.add(id.toString());
                  ids.add((Integer)res.getObject(1));
              }
         } catch (SQLException ex) {
@@ -60,13 +63,11 @@ public class AltaCompeticionLiga extends javax.swing.JDialog {
         }
         if (flag==0){
         ids_agregados.add(ids.get(eq_disponibles.getSelectedIndex()));
-        System.out.println(ids.get(eq_disponibles.getSelectedIndex()));
         modelo2.addElement(nom_equipos.get(eq_disponibles.getSelectedIndex()));
         nom_equipos_agr.add(nom_equipos.get(eq_disponibles.getSelectedIndex()));
-        System.out.println(nom_equipos_agr.get(nom_equipos_agr.size()-1));
-    
+        
         }
-    }
+      }
     
     public List <Integer> getListaEquipos(){
         return ids_agregados;
@@ -216,6 +217,13 @@ public class AltaCompeticionLiga extends javax.swing.JDialog {
 
     private void quitarEquipo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitarEquipo
         // TODO add your handling code here:
+        
+       int sel = eq_agregados.getSelectedIndex();
+       System.out.println(sel);      
+       ids_agregados.remove(ids.get(sel));
+       modelo2.removeElement(nom_equipos.get(sel));
+       nom_equipos_agr.remove(nom_equipos.get(sel));
+      
     }//GEN-LAST:event_quitarEquipo
 
     private void confirmar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmar
@@ -232,11 +240,22 @@ public class AltaCompeticionLiga extends javax.swing.JDialog {
             max_id.next();
             id_posible = max_id.getInt(1)+1;
             
-            
-            
             DividendoLiga dl = new DividendoLiga(null, true, getNombreComp(),getListaNombreEquipos(), getListaEquipos(), getPosibleID());
             dl.setLocation(350, 220);
-            dl.setVisible(true);        
+            dl.setVisible(true); 
+            mbd.CrearPenca(id_posible);
+            
+            for(int i=0;i<ids_agregados.size();i++){
+                for(int j=i+1;j<ids_agregados.size();j++)
+                {
+                    
+                    mbd.CrearPartidoLiga(id_posible, Integer.parseInt(id_equipos_agr.get(i)),Integer.parseInt(id_equipos_agr.get(j)));
+                    System.out.println("ID: "+id_posible +"Local: "+Integer.parseInt(id_equipos_agr.get(i))+"Visita: "+Integer.parseInt(id_equipos_agr.get(j)));
+                    mbd.CrearPartidoLiga(id_posible,Integer.parseInt(id_equipos_agr.get(j)),Integer.parseInt(id_equipos_agr.get(i)));
+                    System.out.println("Uno"+i +"Dos" +j);
+                }
+            }
+            dispose();
             } catch (SQLException e){
                 System.out.println(e);
             }

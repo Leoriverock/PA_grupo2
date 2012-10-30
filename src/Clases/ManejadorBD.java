@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ManejadorBD {
     
@@ -293,7 +295,7 @@ public class ManejadorBD {
     public ResultSet selectLigas(){
         ResultSet res;
         try {
-            res = st.executeQuery("SELECT DISTINCT c.* from competiciones c, partidos p WHERE tipo like '%liga%'  and p.id_comp = c.id_competicion and p.lugar is null");
+            res = st.executeQuery("SELECT distinct  c.* from competiciones c, partidos p WHERE c.tipo like '%liga%'  and  p.lugar is null");
             return res;
         } catch (SQLException ex) {
              System.out.println(ex.toString());
@@ -357,7 +359,7 @@ public class ManejadorBD {
     public void insertEquiposALiga(int id_c, List <Integer> ids, List <Double> dividendos){
         try{
             for (int i=0; i<ids.size(); i++){
-            st.executeUpdate("insert into liga_equipo (ID_Liga, ID_Equipo, Dividendo) values ("+id_c+","+ids.get(i+1)+","+dividendos.get(i+1)+")");
+            st.executeUpdate("insert into liga_equipo (ID_Liga, ID_Equipo, Dividendo) values ("+id_c+","+ids.get(i)+","+dividendos.get(i)+")");
             }
         } catch(SQLException e){
             System.out.println(e);
@@ -899,4 +901,40 @@ public List ObtenerFechaHora()
         }
      
      }
+    public List ObtenerRegistro()
+     {
+         ResultSet res;
+        List Lista= new ArrayList();
+         try {
+            res = st.executeQuery("select Fecha,IP,Cliente,SO from registro");
+            while(res.next())
+            {         
+                Lista.add(res.getObject(1));
+                Lista.add(res.getObject(2));
+                Lista.add(res.getObject(3));
+                Lista.add(res.getObject(4));             
+            }
+            return Lista;
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+            return null;
+        }
+     }
+    public void CrearPartidoLiga(int Comp, int Local, int Visita){
+        try {
+            int res = st.executeUpdate("INSERT INTO partidos (id_comp,equipolocal, equipovisita) VALUES ("+Comp+","+Local+","+Visita+")");
+        } catch (SQLException ex) {
+            System.out.println("Error: "+ex);
+        }
+    }   
+    public void CrearPenca(int Comp){
+        try {
+            int res = st.executeUpdate("INSERT INTO pencas (id_comp) VALUES ("+Comp+")");
+        } catch (SQLException ex) {
+             System.out.println("Error: "+ex);
+        }
+
+    }
+    
+    
 }

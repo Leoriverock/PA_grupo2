@@ -35,9 +35,11 @@ public class Main extends javax.swing.JFrame {
         dividendos = new javax.swing.JMenuItem();
         menu_usuarios = new javax.swing.JMenu();
         menu_verUsuario = new javax.swing.JMenuItem();
+        VerRegi = new javax.swing.JMenuItem();
         menu_fechaYhora = new javax.swing.JMenu();
         cargar_datos_prueba = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
+        Grafica = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Aplicacion Administrador");
@@ -167,6 +169,14 @@ public class Main extends javax.swing.JFrame {
         });
         menu_usuarios.add(menu_verUsuario);
 
+        VerRegi.setText("Ver Registro");
+        VerRegi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerRegiActionPerformed(evt);
+            }
+        });
+        menu_usuarios.add(VerRegi);
+
         barra_menu.add(menu_usuarios);
 
         menu_fechaYhora.setText("Opciones");
@@ -187,6 +197,14 @@ public class Main extends javax.swing.JFrame {
         });
         menu_fechaYhora.add(jMenuItem1);
 
+        Grafica.setText("Grafica");
+        Grafica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GraficaActionPerformed(evt);
+            }
+        });
+        menu_fechaYhora.add(Grafica);
+
         barra_menu.add(menu_fechaYhora);
 
         setJMenuBar(barra_menu);
@@ -206,9 +224,9 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void crearEquipo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearEquipo
-        AltaEquipo ae = new AltaEquipo(this, true);
-        ae.setLocation(350, 250);
-        ae.setVisible(true);
+        AltaEquipo Ae = new AltaEquipo(this, true);
+        Ae.setLocation(350, 250);
+        Ae.setVisible(true);
     }//GEN-LAST:event_crearEquipo
 
     private void verEquipo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verEquipo
@@ -287,6 +305,18 @@ public class Main extends javax.swing.JFrame {
         vdu.setVisible(true);
     }//GEN-LAST:event_verUsuario
 
+    private void GraficaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GraficaActionPerformed
+        // TODO add your handling code here:
+        new Graficar("loquequieras","datos/prueba.txt");
+    }//GEN-LAST:event_GraficaActionPerformed
+
+    private void VerRegiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerRegiActionPerformed
+        // TODO add your handling code here:
+         RegistroSitio reg = new RegistroSitio(this, true);
+        reg.setLocationRelativeTo(null);
+        reg.setVisible(true);
+    }//GEN-LAST:event_VerRegiActionPerformed
+
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -298,6 +328,8 @@ public class Main extends javax.swing.JFrame {
         
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem Grafica;
+    private javax.swing.JMenuItem VerRegi;
     private javax.swing.JMenuBar barra_menu;
     private javax.swing.JMenuItem cargar_datos_prueba;
     private javax.swing.JMenuItem crear_equipo;

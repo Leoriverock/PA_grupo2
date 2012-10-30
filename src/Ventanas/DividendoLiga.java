@@ -63,12 +63,15 @@ public class DividendoLiga extends javax.swing.JDialog {
                     id_cmp = Integer.parseInt(resx.getObject(1).toString());
                 }
                 mbd.insertEquiposALiga(id_cmp, ids_agregados, dividendos);
-                JOptionPane.showMessageDialog(this, "Competicion creada! ID = "+id_cmp+".", "Exito!", JOptionPane.INFORMATION_MESSAGE);
-                this.dispose();
+                
+                JOptionPane.showMessageDialog(null, "Competicion creada! ID = "+id_cmp+".", "Exito!", JOptionPane.INFORMATION_MESSAGE);
+                dispose();
                 } catch (Exception e){
                     System.out.println("señal1"+e);
                 }
             }
+            
+           
         } else{
             JOptionPane.showMessageDialog(this, "El dividendo asignado es incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -76,6 +79,7 @@ public class DividendoLiga extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "El formato del dividendo no es correcto", "Error", JOptionPane.ERROR_MESSAGE);
             System.out.println("señan2"+e.toString());
         }
+        
     }
     
     @SuppressWarnings("unchecked")

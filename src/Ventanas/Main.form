@@ -147,6 +147,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verUsuario"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="VerRegi">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Ver Registro"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="VerRegiActionPerformed"/>
+              </Events>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="menu_fechaYhora">
@@ -168,6 +176,14 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verFechaYhora"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="Grafica">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Grafica"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="GraficaActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
