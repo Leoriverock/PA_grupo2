@@ -63,6 +63,9 @@ public class DividendoLiga extends javax.swing.JDialog {
                     id_cmp = Integer.parseInt(resx.getObject(1).toString());
                 }
                 mbd.insertEquiposALiga(id_cmp, ids_agregados, dividendos);
+                DividendoGoleador g = new DividendoGoleador(null,true,posible_id_c);
+                g.setVisible(true);
+                g.setLocationRelativeTo(null);
                 
                 JOptionPane.showMessageDialog(null, "Competicion creada! ID = "+id_cmp+".", "Exito!", JOptionPane.INFORMATION_MESSAGE);
                 dispose();
@@ -155,6 +158,7 @@ public class DividendoLiga extends javax.swing.JDialog {
 
     private void asignarDividendo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignarDividendo
         asignarDividendo();
+        
     }//GEN-LAST:event_asignarDividendo
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
