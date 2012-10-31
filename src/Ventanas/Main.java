@@ -1,5 +1,6 @@
 package Ventanas;
 import Clases.*;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import ventanas.VerDetalleUsuario;
 
@@ -9,12 +10,16 @@ public class Main extends javax.swing.JFrame {
     
     public Main() {
         initComponents();
+        ImageIcon image = new ImageIcon("imagenes/logo.png");
+        ImageIcon imageResize = new ImageIcon(image.getImage());
+        Ibet.setIcon(imageResize);
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        Ibet = new javax.swing.JLabel();
         barra_menu = new javax.swing.JMenuBar();
         menu_archivo = new javax.swing.JMenu();
         salir = new javax.swing.JMenuItem();
@@ -213,11 +218,17 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 750, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(210, 210, 210)
+                .addComponent(Ibet, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(227, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 404, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(96, 96, 96)
+                .addComponent(Ibet, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(120, Short.MAX_VALUE))
         );
 
         pack();
@@ -329,6 +340,7 @@ public class Main extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Grafica;
+    private javax.swing.JLabel Ibet;
     private javax.swing.JMenuItem VerRegi;
     private javax.swing.JMenuBar barra_menu;
     private javax.swing.JMenuItem cargar_datos_prueba;
