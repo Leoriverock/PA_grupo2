@@ -122,7 +122,7 @@ public class AltaEquipo extends javax.swing.JDialog {
             if(!inicio.equals(""))
             {
             File archivo = new File(fileChooser.getSelectedFile().getPath());
-            String nameC = "Imagen ("+id+").jpg";
+            String nameC = "Imagen("+id+").jpg";
             termina = "////192.168.56.101//Archivos//Equipos//"+nameC;
             File destino = new File(termina);
             Copiar cp = new Copiar();
@@ -132,6 +132,7 @@ public class AltaEquipo extends javax.swing.JDialog {
                 System.out.println("Error E/S: "+ex);
             }
             mbd.ActualizarFotoEquipo(termina, id);
+            mbd.NombreImagen(nameC, id);
             }
             JOptionPane.showMessageDialog(this, "Se creo el equipo con id: "+eq.getId(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();

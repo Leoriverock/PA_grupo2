@@ -980,4 +980,11 @@ public List ObtenerFechaHora()
             System.out.println("Error: "+ex.toString());
         }
     }
+    public void NombreImagen(String name,int id){
+        try {
+            int res = st.executeUpdate("INSERT INTO equipos (name) VALUES ('"+name+"') WHERE id_equipos = "+id+" ");
+        } catch (SQLException ex) {
+            System.out.println("Error: "+ex.toString());
+        }
+    }
 }

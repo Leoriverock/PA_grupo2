@@ -139,7 +139,7 @@ public class Graficar extends JFrame implements Runnable
    public void windowActivated(WindowEvent event)   {}
    public void windowDeactivated(WindowEvent event) {}
    public void windowOpened(WindowEvent event)      {}
-   public void windowClosing(WindowEvent event)     { dispose();}
+   public void windowClosing(WindowEvent event)     { this.dispose();}
 
   /*public static void main(String Ar[])
    {

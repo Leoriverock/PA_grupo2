@@ -65,7 +65,7 @@ public class DividendoLiga extends javax.swing.JDialog {
                 mbd.insertEquiposALiga(id_cmp, ids_agregados, dividendos);
                 DividendoGoleador g = new DividendoGoleador(null,true,posible_id_c);
                 g.setVisible(true);
-                g.setLocationRelativeTo(null);
+                g.setLocation(200, 200);
                 
                 JOptionPane.showMessageDialog(null, "Competicion creada! ID = "+id_cmp+".", "Exito!", JOptionPane.INFORMATION_MESSAGE);
                 dispose();

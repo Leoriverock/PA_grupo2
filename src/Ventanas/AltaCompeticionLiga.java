@@ -28,7 +28,7 @@ public class AltaCompeticionLiga extends javax.swing.JDialog {
     DefaultListModel modelo2 = new DefaultListModel();
     int id_posible;
     
-    private void llenarListaDisponibles(){
+        private void llenarListaDisponibles(){
         Statement st = mbd.getStatement();
         ResultSet res;
         Object nombre, id;
@@ -46,7 +46,7 @@ public class AltaCompeticionLiga extends javax.swing.JDialog {
                  nom_equipos.add(nombre.toString());
                  id_equipos_agr.add(id.toString());
                  ids.add((Integer)res.getObject(1));
-             }
+                 }
         } catch (SQLException ex) {
             System.out.println("Error");
         }
@@ -92,7 +92,6 @@ public class AltaCompeticionLiga extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         eq_disponibles = new javax.swing.JList();
         txtfield_nombre = new javax.swing.JTextField();
-        label_nombre = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         eq_agregados = new javax.swing.JList();
         boton_agregar = new javax.swing.JButton();
@@ -101,9 +100,11 @@ public class AltaCompeticionLiga extends javax.swing.JDialog {
         boton_donfirmar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        eq_disponibles.setBorder(new javax.swing.border.MatteBorder(null));
         eq_disponibles.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
@@ -111,8 +112,9 @@ public class AltaCompeticionLiga extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(eq_disponibles);
 
-        label_nombre.setText("Nombre");
+        txtfield_nombre.setToolTipText("Ingrese nombre aqui...");
 
+        eq_agregados.setBorder(new javax.swing.border.MatteBorder(null));
         eq_agregados.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
@@ -120,14 +122,18 @@ public class AltaCompeticionLiga extends javax.swing.JDialog {
         });
         jScrollPane2.setViewportView(eq_agregados);
 
-        boton_agregar.setText("Agregar  >>");
+        boton_agregar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Bruce Wayne\\Documents\\NetBeansProjects\\Grupo2012\\Imagenes\\add.png")); // NOI18N
+        boton_agregar.setToolTipText("Agregar");
+        boton_agregar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         boton_agregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 agregarEquipo(evt);
             }
         });
 
-        boton_quitar.setText("<<  Quitar   ");
+        boton_quitar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Bruce Wayne\\Documents\\NetBeansProjects\\Grupo2012\\Imagenes\\remove.png")); // NOI18N
+        boton_quitar.setToolTipText("Quitar");
+        boton_quitar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         boton_quitar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 quitarEquipo(evt);
@@ -152,6 +158,9 @@ public class AltaCompeticionLiga extends javax.swing.JDialog {
 
         jLabel2.setText("Equipos Agregados:");
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel3.setText("Alta Competicion Liga");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -159,57 +168,62 @@ public class AltaCompeticionLiga extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(48, 48, 48)
+                        .addGap(45, 45, 45)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(72, 72, 72)
+                                .addGap(118, 118, 118)
                                 .addComponent(boton_donfirmar)
-                                .addGap(36, 36, 36)
+                                .addGap(18, 18, 18)
                                 .addComponent(boton_cancelar))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(boton_agregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(boton_quitar))
-                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2)))))
+                                    .addComponent(jLabel1)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(45, 45, 45)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(boton_quitar)
+                                            .addComponent(boton_agregar))))
+                                .addGap(41, 41, 41)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(75, 75, 75)
-                        .addComponent(label_nombre)
-                        .addGap(47, 47, 47)
-                        .addComponent(txtfield_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(155, 155, 155)
+                        .addComponent(txtfield_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(118, 118, 118)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(label_nombre)
-                    .addComponent(txtfield_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(20, 20, 20)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(txtfield_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(boton_donfirmar)
+                            .addComponent(boton_cancelar)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
                         .addComponent(boton_agregar)
-                        .addGap(18, 18, 18)
-                        .addComponent(boton_quitar))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(boton_donfirmar)
-                    .addComponent(boton_cancelar))
-                .addGap(20, 20, 20))
+                        .addGap(28, 28, 28)
+                        .addComponent(boton_quitar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(18, 18, 18))
         );
 
         pack();
@@ -249,9 +263,9 @@ public class AltaCompeticionLiga extends javax.swing.JDialog {
                 for(int j=i+1;j<ids_agregados.size();j++)
                 {
                     
-                    mbd.CrearPartidoLiga(id_posible, Integer.parseInt(id_equipos_agr.get(i)),Integer.parseInt(id_equipos_agr.get(j)));
-                    System.out.println("ID: "+id_posible +"Local: "+Integer.parseInt(id_equipos_agr.get(i))+"Visita: "+Integer.parseInt(id_equipos_agr.get(j)));
-                    mbd.CrearPartidoLiga(id_posible,Integer.parseInt(id_equipos_agr.get(j)),Integer.parseInt(id_equipos_agr.get(i)));
+                    mbd.CrearPartidoLiga(id_posible, ids_agregados.get(i),ids_agregados.get(j));
+                    System.out.println("ID: "+id_posible +"Local: "+ids_agregados.get(i) +"Visita: "+ids_agregados.get(j));
+                    mbd.CrearPartidoLiga(id_posible,ids_agregados.get(j),ids_agregados.get(i));
                     System.out.println("Uno"+i +"Dos" +j);
                 }
             }
@@ -283,9 +297,9 @@ public class AltaCompeticionLiga extends javax.swing.JDialog {
     private javax.swing.JList eq_disponibles;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel label_nombre;
     private javax.swing.JTextField txtfield_nombre;
     // End of variables declaration//GEN-END:variables
 }
