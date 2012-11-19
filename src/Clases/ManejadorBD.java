@@ -43,7 +43,14 @@ public class ManejadorBD {
     public java.sql.Statement getStatement(){
         return st;
     }
-    
+    public java.sql.Statement crearStatement(){
+        try {
+            return conexion.createStatement();
+        } catch (SQLException ex) {
+            System.out.println("error crear statement"+ex.toString());
+            return null;
+        }
+    }
     public Object ObtenerIdEquipo(String Nombre)
     {
         ResultSet res;
@@ -318,6 +325,16 @@ public class ManejadorBD {
         ResultSet retorno;
         try {
             retorno = st.executeQuery("select * from partidos p, equipos e1, equipos e2 where ID_Partido='"+id+"' and p.lugar is null  and p.equipolocal = e1.id_equipos and p.equipovisita = e2.id_equipos");
+            return retorno;
+        } catch (SQLException ex) {
+            System.out.println("Error: "+ex.toString());
+            return null;
+        }
+    }
+    public ResultSet selectPartidos2(Integer id){
+        ResultSet retorno;
+        try {
+            retorno = st.executeQuery("select * from partidos p, equipos e1, equipos e2 where ID_Partido='"+id+"' and p.equipolocal = e1.id_equipos and p.equipovisita = e2.id_equipos");
             return retorno;
         } catch (SQLException ex) {
             System.out.println("Error: "+ex.toString());
@@ -986,6 +1003,50 @@ public List ObtenerFechaHora()
             int res = st.executeUpdate("INSERT INTO equipos (name) VALUES ('"+name+"') WHERE id_equipos = "+id+" ");
         } catch (SQLException ex) {
             System.out.println("Error: "+ex.toString());
+        }
+    }
+    
+    public boolean competicionTipoLiga(int id_comp){
+        try {
+            ResultSet comp = st.executeQuery("select * from competiciones where id_competicion="+id_comp+"");
+            comp.next();
+
+            if (comp.getString("tipo").equals("Liga")){
+                return true;
+                } else {
+                    return false;
+                    }
+        
+        } catch (SQLException ex) {
+            System.out.println("error consulta competicion tipo liga "+ex.toString());
+            return false;
+            }
+    }
+    
+    public boolean LigaFinalizada(int id_comp){
+        
+        try {
+            ResultSet cant_eq = st.executeQuery("select count(*) from tabla_posiciones where id_comp="+id_comp+"");
+            cant_eq.next();
+            int cantidad_eq= cant_eq.getInt("count(*)");
+
+            ResultSet part_jugados= st.executeQuery("select * from tabla_posiciones where id_comp="+id_comp+"");
+            int ultimo_partido=0;
+            while(part_jugados.next()){
+                if (part_jugados.getInt("partidos_jugados") == (2*(cantidad_eq-1))){
+                    ultimo_partido++;
+                }
+            }
+            
+            if (ultimo_partido==cantidad_eq){ //todos los equipos jugaron el ultimo partido?
+                System.out.println("todos jugaron "+2*(cantidad_eq-1)+" partidos");
+                return true;
+            } else {
+                return false;
+                }
+        } catch (SQLException ex) {
+            System.out.println("error consulta liga finalizada"+ex.toString());
+            return false;
         }
     }
 }

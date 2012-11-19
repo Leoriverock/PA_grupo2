@@ -2,21 +2,35 @@
 package Ventanas;
 
 import Clases.ManejadorBD;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class FinalizarPartido extends javax.swing.JDialog {
 
-    List Datos = new ArrayList();
-    String ID_Actual;
-
+    
+            
     public FinalizarPartido(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
 
+    List Datos = new ArrayList();
+    String ID_Actual;
+    int goles_local= 0; 
+    int goles_visita = 0;
+    int id_local= 0;
+    int id_visita= 0;
+    int id_comp = 0;
+    double div_res_exacto=0, div_res_partido_l=0, div_res_partido_e=0, div_res_partido_v=0;;
+    int id_part_sel=0;
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -429,6 +443,8 @@ public class FinalizarPartido extends javax.swing.JDialog {
         valor=(Partido.getSelectedRow()*6)+5;
         this.ID_Actual=String.valueOf(Lista.get(valor));
         
+        id_part_sel= Integer.parseInt(ID_Actual);
+        
          while(modeloLocal.getRowCount()!=0){
            modeloLocal.removeRow(0); 
         }
@@ -555,7 +571,7 @@ public class FinalizarPartido extends javax.swing.JDialog {
     {
         if(check1.equalsIgnoreCase("") && check2.equalsIgnoreCase(""))
         {
-            JOptionPane.showMessageDialog(this, "El Campo goles no peude estar vacio","Error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "El Campo goles no puede estar vacio","Error", JOptionPane.INFORMATION_MESSAGE);
             return false;
         }        
         if(this.isNumeric(check1) && this.isNumeric(check2))
@@ -623,6 +639,42 @@ public class FinalizarPartido extends javax.swing.JDialog {
                 }
             
                 Li.AgregarFinalizarPartido(Integer.parseInt(GolesLocal.getText()), Integer.parseInt(GolesVisitante.getText()), Local, Vis, this.ID_Actual);
+                
+                ////////////////////
+                //////APUESTAS//////
+                ////////////////////
+                
+                goles_local= Integer.parseInt(GolesLocal.getText()); 
+                goles_visita = Integer.parseInt(GolesVisitante.getText());
+                ResultSet part;
+                    try {
+                        part = Li.getStatement().executeQuery("select * from partidos where id_partido="+id_part_sel+"");
+                        part.next();
+                        id_local= part.getInt("equipolocal");
+                        id_visita= part.getInt("equipovisita");
+                        id_comp = part.getInt("id_comp");
+                        System.out.println("id_local="+id_local+". Id_visita="+id_visita+". ID_Competicion= "+id_comp+". ID_Partido="+id_part_sel);
+                        
+                    } catch (SQLException ex) {
+                        Logger.getLogger(FinalizarPartido.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                
+                //APUESTAS    
+                actualizarApuestasPartido(); //funca :D
+                actualizarApuestasResExacto();//funca
+
+                if (Li.competicionTipoLiga(id_comp)){ //si es un partido de liga...
+                    acualizarTablaPosiciones();//ya anda!
+                    
+                    if (Li.LigaFinalizada(id_comp)){
+                        actualizarApuestasCampeon();
+                    }
+                }
+                
+                
+                
+                
+                
                 JOptionPane.showMessageDialog(this, "Se Finalizo Exitosamente","Informacion", JOptionPane.INFORMATION_MESSAGE);
                 this.BuscarCActionPerformed(evt);
                 }
@@ -676,4 +728,165 @@ public class FinalizarPartido extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     // End of variables declaration//GEN-END:variables
-}
+
+    
+    
+    
+    private void acualizarTablaPosiciones() {
+        ManejadorBD mbd = ManejadorBD.getInstancia();
+        Statement st=mbd.getStatement();
+        
+        try {   
+                if (goles_local > goles_visita){
+                        
+                    //datos del local
+                    st.executeUpdate("update tabla_posiciones set puntos=puntos+3, partidos_jugados=partidos_jugados+1, " 
+                            +"partidos_ganados=partidos_ganados+1, goles_a_favor=goles_a_favor+"+goles_local+", goles_en_contra=goles_en_contra+"+goles_visita+""
+                            +" where id_comp="+id_comp+" and id_equipo="+id_local+"");
+                    
+                    //datos visita
+                            st.executeUpdate("update tabla_posiciones set partidos_jugados=partidos_jugados+1, " 
+                                    +"partidos_perdidos=partidos_perdidos+1, goles_a_favor=goles_a_favor+"+goles_visita+", goles_en_contra=goles_en_contra+"+goles_local+""
+                                    +" where id_comp="+id_comp+" and id_equipo="+id_visita+"");
+                
+                }  else if (goles_local < goles_visita){
+
+                    //datos del visita
+                    st.executeUpdate("update tabla_posiciones set puntos=puntos+3, partidos_jugados=partidos_jugados+1, " 
+                            +"partidos_ganados=partidos_ganados+1, goles_a_favor=goles_a_favor+"+goles_visita+", goles_en_contra=goles_en_contra+"+goles_local+""
+                            +" where id_comp="+id_comp+" and id_equipo="+id_visita+"");
+                    //datos local
+                    st.executeUpdate("update tabla_posiciones set partidos_jugados=partidos_jugados+1, " 
+                            +"partidos_perdidos=partidos_perdidos+1, goles_a_favor=goles_a_favor+"+goles_local+", goles_en_contra=goles_en_contra+"+goles_visita+""
+                            +" where id_comp="+id_comp+" and id_equipo="+id_local+"");
+
+                    } else{
+                            //datos local
+                            st.executeUpdate("update tabla_posiciones set puntos=puntos+1, partidos_jugados=partidos_jugados+1, " 
+                                +"partidos_empatados=partidos_empatados+1, goles_a_favor=goles_a_favor+"+goles_local+", goles_en_contra=goles_en_contra+"+goles_visita+""
+                                +" where id_comp="+id_comp+" and id_equipo="+id_local+"");
+                            //datos visita
+                            st.executeUpdate("update tabla_posiciones set puntos=puntos+1, partidos_jugados=partidos_jugados+1, " 
+                                +"partidos_empatados=partidos_empatados+1, goles_a_favor=goles_a_favor+"+goles_visita+", goles_en_contra=goles_en_contra+"+goles_local+""
+                                +" where id_comp="+id_comp+" and id_equipo="+id_visita+"");
+                            }
+                System.out.println("se actualizo la tabla de pos");
+        } catch (SQLException ex) {
+            System.out.println("error selec comp "+ex.toString());
+        }
+    }
+
+    
+    
+    
+    private void actualizarApuestasPartido() {
+        
+        
+        ManejadorBD mbd = ManejadorBD.getInstancia();
+        
+        try {                      
+                            ResultSet partido= mbd.crearStatement().executeQuery("select * from partidos where id_partido="+id_part_sel+"");
+                            while (partido.next()){
+                                div_res_partido_l=partido.getDouble("divlocal");
+                                div_res_partido_e=partido.getDouble("divempate");
+                                div_res_partido_v=partido.getDouble("divvisita");
+                                }
+                            
+                            ResultSet res = mbd.crearStatement().executeQuery("select * from apuestas a, ap_partidos ap, usuarios u where u.id_user=a.id_usuario and "
+                                +"a.id_apuesta=ap.id_apuesta and ap.id_partido="+id_part_sel+" ");
+                            while (res.next()){
+                                
+                                if (goles_local > goles_visita){
+                                if (res.getString("ap.opcion").equals("local")){
+                                        mbd.crearStatement().executeUpdate("update usuarios u, apuestas a set u.saldo='"+(res.getDouble("u.saldo")+(Double.parseDouble(res.getObject("a.monto").toString())*div_res_partido_l))+"'"
+                                                +", a.estado='ganada' where u.id_user="+res.getInt("u.id_user")+" and a.id_usuario="+res.getInt("u.id_user")+" and a.id_apuesta="+res.getInt("a.id_apuesta") +"");
+                                    } else {
+                                            mbd.crearStatement().executeUpdate("update apuestas a set a.estado='perdida' where a.id_usuario="+res.getInt("u.id_user")+" and a.id_apuesta="+res.getInt("a.id_apuesta") +"");
+                                        }
+                                
+                                } else if (goles_local == goles_visita){
+                                if (res.getString("ap.opcion").equals("empate")){
+                                        mbd.crearStatement().executeUpdate("update usuarios u, apuestas a set u.saldo='"+(res.getDouble("u.saldo")+(Double.parseDouble(res.getObject("a.monto").toString())*div_res_partido_e))+"'"
+                                                +", a.estado='ganada' where u.id_user="+res.getInt("u.id_user")+" and a.id_usuario="+res.getInt("u.id_user")+" and a.id_apuesta="+res.getInt("a.id_apuesta") +"");
+                                    } else {
+                                            mbd.crearStatement().executeUpdate("update apuestas a set a.estado='perdida' where a.id_usuario="+res.getInt("u.id_user")+" and a.id_apuesta="+res.getInt("a.id_apuesta") +"");
+                                        }
+                                
+                                } else {
+                                if (res.getString("ap.opcion").equals("visita")){
+                                        mbd.crearStatement().executeUpdate("update usuarios u, apuestas a set u.saldo='"+(res.getDouble("u.saldo")+(Double.parseDouble(res.getObject("a.monto").toString())*div_res_partido_v))+"'"
+                                                +", a.estado='ganada' where u.id_user="+res.getInt("u.id_user")+" and a.id_usuario="+res.getInt("u.id_user")+" and a.id_apuesta="+res.getInt("a.id_apuesta") +"");
+                                    } else {
+                                            mbd.crearStatement().executeUpdate("update apuestas a set a.estado='perdida' where a.id_usuario="+res.getInt("u.id_user")+" and a.id_apuesta="+res.getInt("a.id_apuesta") +"");
+                                        }
+                                }
+                            } //while
+                        } catch (SQLException ex) {
+                            System.out.println("error en apuesta resultado de partido"+ex.toString());
+                        }
+        
+        
+        
+        
+    }
+
+    private void actualizarApuestasResExacto() {
+        try {
+            ManejadorBD mbd= ManejadorBD.getInstancia();
+            
+            ResultSet partido= mbd.crearStatement().executeQuery("select * from partidos where id_partido="+id_part_sel+"");
+            if (partido.next()){
+            div_res_exacto=partido.getDouble("div_exacto");
+            }
+            ResultSet apuesta= mbd.crearStatement().executeQuery("select * from apuestas a, ap_res_exacto are, usuarios u where"
+                    +" u.id_user=a.id_usuario and a.id_apuesta=are.id_apuesta and are.id_partido="+id_part_sel+" ");
+
+            while (apuesta.next()){
+                if (apuesta.getInt("goles_local") == goles_local && apuesta.getInt("goles_visita")==goles_visita){
+                    mbd.crearStatement().executeUpdate("update usuarios u, apuestas a set a.estado='ganada' ,"
+                        +" u.saldo='"+(apuesta.getDouble("u.saldo")+(Double.parseDouble(apuesta.getObject("a.monto").toString())*div_res_exacto))+"'"
+                        +" where u.id_user="+apuesta.getInt("u.id_user")+" and a.id_usuario="+apuesta.getInt("u.id_user")
+                        +" and a.id_apuesta="+apuesta.getInt("a.id_apuesta") +"");
+                } else{
+                       mbd.crearStatement().executeUpdate("update apuestas a set a.estado='perdida' where"
+                            +" a.id_usuario="+apuesta.getInt("u.id_user")+" and a.id_apuesta="+apuesta.getInt("a.id_apuesta")+"");
+
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("error apuestas resultado exacto: "+ex.toString());
+            }
+
+    }
+
+    private void actualizarApuestasCampeon() {
+        try {
+            ManejadorBD mbd = ManejadorBD.getInstancia();
+            
+            
+            ResultSet campeon = mbd.crearStatement().executeQuery("select * from tabla_posiciones where id_comp="+id_comp+" order by puntos desc limit 1");
+            campeon.next();
+            int id_campeon=campeon.getInt("id_equipo");
+
+            ResultSet div= mbd.crearStatement().executeQuery("select * from liga_equipo where id_liga="+id_comp+" and id_equipo="+id_campeon+"");
+            div.next();
+            int div_eq=div.getInt("dividendo");
+
+            ResultSet ganadores = mbd.crearStatement().executeQuery("select * from apuestas a, ap_campeon ac where a.id_apuesta=ac.id_apuesta and a.id_comp="+id_comp+"");
+
+            while (ganadores.next()){
+                if (ganadores.getInt("ac.id_equipo")==id_campeon){
+                    mbd.crearStatement().executeUpdate("update usuarios u, apuestas a set u.saldo=(u.saldo+("+div_eq+"*a.monto)), a.estado='ganada' "
+                        +"where a.id_usuario="+ganadores.getInt("a.id_usuario") +" and u.id_user="+ganadores.getInt("a.id_usuario") +" and "
+                        +" a.id_apuesta="+ganadores.getInt("a.id_apuesta") +"");
+                } else {
+                        mbd.crearStatement().executeUpdate("update apuestas a set a.estado='perdida' where a.id_usuario="+ganadores.getInt("a.id_usuario")+" and "
+                        +" a.id_apuesta="+ganadores.getInt("a.id_apuesta") +"");
+                    }
+                }
+        } catch (SQLException ex) {
+            System.out.println("error apuestas campeon ln:888 "+ex.toString());
+        }
+        }
+    }
+

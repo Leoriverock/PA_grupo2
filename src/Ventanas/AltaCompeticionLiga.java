@@ -260,6 +260,8 @@ public class AltaCompeticionLiga extends javax.swing.JDialog {
             mbd.CrearPenca(id_posible);
             
             for(int i=0;i<ids_agregados.size();i++){
+                mbd.crearStatement().executeUpdate("insert into tabla_posiciones(id_equipo, id_comp) values ("+ids_agregados.get(i) +","+id_posible+")");
+                System.out.println("agreg "+ids_agregados.get(i));
                 for(int j=i+1;j<ids_agregados.size();j++)
                 {
                     

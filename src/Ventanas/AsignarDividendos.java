@@ -174,11 +174,11 @@ public class AsignarDividendos extends javax.swing.JDialog {
             int Lugar = ComboPartidos.getSelectedIndex();
             Integer id = Idselect.get(Lugar);
             ids = id;
-            ResultSet resultado = mbd.selectPartidos(id);
+            ResultSet resultado = mbd.selectPartidos2(id);
             resultado.next();
-            ShowID.setText(resultado.getString(2));
-            EquipoLocal.setText(resultado.getString(13));
-            EquipoVisita.setText(resultado.getString(15));
+            ShowID.setText(resultado.getString("p.id_partido"));
+            EquipoLocal.setText(resultado.getString("e1.nombre"));
+            EquipoVisita.setText(resultado.getString("e2.nombre"));
         } catch (SQLException ex) {
             System.out.println("Error: "+ex);
         }

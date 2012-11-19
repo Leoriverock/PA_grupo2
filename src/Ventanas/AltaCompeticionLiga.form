@@ -96,7 +96,6 @@
                       <Component id="boton_agregar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                       <Component id="boton_quitar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -166,9 +165,6 @@
     </Container>
     <Component class="javax.swing.JButton" name="boton_agregar">
       <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\Bruce Wayne\Documents\NetBeansProjects\Grupo2012\Imagenes\add.png"/>
-        </Property>
         <Property name="toolTipText" type="java.lang.String" value="Agregar"/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
@@ -182,9 +178,6 @@
     </Component>
     <Component class="javax.swing.JButton" name="boton_quitar">
       <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\Bruce Wayne\Documents\NetBeansProjects\Grupo2012\Imagenes\remove.png"/>
-        </Property>
         <Property name="toolTipText" type="java.lang.String" value="Quitar"/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
